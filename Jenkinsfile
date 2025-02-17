@@ -67,15 +67,22 @@ pipeline {
             }
             steps {
                 sh '''
-                    echo "Using a local npm directory for Netlify CLI..."
-                    export NPM_CONFIG_PREFIX=$(pwd)/.npm-global
-                    export PATH=$(pwd)/.npm-global/bin:$PATH
+                    echo "Fixing npm permissions..."
+                    mkdir -p $WORKSPACE/.npm-global
+                    mkdir -p $WORKSPACE/.npm-cache
+                    chmod -R 777 $WORKSPACE/.npm-global $WORKSPACE/.npm-cache
+
+                    echo "Setting npm global install path..."
+                    export NPM_CONFIG_PREFIX=$WORKSPACE/.npm-global
+                    export PATH=$WORKSPACE/.npm-global/bin:$PATH
+                    export NPM_CONFIG_CACHE=$WORKSPACE/.npm-cache
+
                     echo "Installing Netlify CLI locally..."
                     npm install netlify-cli
-                    echo "Checking Netlify CLI version..."
-                    ./node_modules/.bin/netlify --version
 
-                '''
+                    echo "Checking Netlify CLI version..."
+                    $WORKSPACE/.npm-global/bin/netlify --version
+                 '''
             }
         }
     }
