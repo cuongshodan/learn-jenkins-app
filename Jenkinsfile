@@ -67,8 +67,13 @@ pipeline {
             }
             steps {
                 sh '''
-                    npm install netlify-cli -g
-                    netlify --version
+                    echo "Using a local npm directory for Netlify CLI..."
+                    export NPM_CONFIG_PREFIX=$(pwd)/.npm-global
+                    export PATH=$(pwd)/.npm-global/bin:$PATH
+                    echo "Installing Netlify CLI locally..."
+                    npm install netlify-cli
+                    echo "Checking Netlify CLI version..."
+                    ./node_modules/.bin/netlify --version
 
                 '''
             }
