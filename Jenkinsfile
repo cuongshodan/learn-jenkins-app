@@ -66,23 +66,25 @@ pipeline {
                 }
             }
             steps {
-                sh '''
+                 sh '''
                     echo "Fixing npm permissions..."
                     mkdir -p $WORKSPACE/.npm-global
                     mkdir -p $WORKSPACE/.npm-cache
-                    chmod -R 777 $WORKSPACE/.npm-global $WORKSPACE/.npm-cache
+                    mkdir -p $WORKSPACE/.npm-logs
+                    chmod -R 777 $WORKSPACE/.npm-global $WORKSPACE/.npm-cache $WORKSPACE/.npm-logs
 
-                    echo "Setting npm global install path..."
+                    echo "Setting npm environment variables..."
                     export NPM_CONFIG_PREFIX=$WORKSPACE/.npm-global
-                    export PATH=$WORKSPACE/.npm-global/bin:$PATH
                     export NPM_CONFIG_CACHE=$WORKSPACE/.npm-cache
+                    export NPM_CONFIG_LOGLEVEL=verbose
+                    export PATH=$WORKSPACE/.npm-global/bin:$PATH
 
-                    echo "Installing Netlify CLI locally..."
-                    npm install netlify-cli
+                    echo "Installing Netlify CLI locally with --unsafe-perm..."
+                    npm install netlify-cli --unsafe-perm
 
                     echo "Checking Netlify CLI version..."
                     $WORKSPACE/.npm-global/bin/netlify --version
-                 '''
+                '''
             }
         }
     }
