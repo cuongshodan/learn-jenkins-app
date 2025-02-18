@@ -66,17 +66,18 @@ pipeline {
                 }
             }
             steps {
-                 sh '''
+                sh '''
+                    echo "Installing required dependencies for sharp..."
+                    apk add --no-cache python3 make g++ libc6-compat libvips
+
                     echo "Fixing npm permissions..."
                     mkdir -p $WORKSPACE/.npm-global
                     mkdir -p $WORKSPACE/.npm-cache
-                    mkdir -p $WORKSPACE/.npm-logs
-                    chmod -R 777 $WORKSPACE/.npm-global $WORKSPACE/.npm-cache $WORKSPACE/.npm-logs
+                    chmod -R 777 $WORKSPACE/.npm-global $WORKSPACE/.npm-cache
 
                     echo "Setting npm environment variables..."
                     export NPM_CONFIG_PREFIX=$WORKSPACE/.npm-global
                     export NPM_CONFIG_CACHE=$WORKSPACE/.npm-cache
-                    export NPM_CONFIG_LOGLEVEL=verbose
                     export PATH=$WORKSPACE/.npm-global/bin:$PATH
 
                     echo "Installing Netlify CLI locally with --unsafe-perm..."
