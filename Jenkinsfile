@@ -62,26 +62,14 @@ pipeline {
             agent {
                 docker {
                     image 'node:18-alpine'
+                    args '--user root'
                     reuseNode true
                 }
             }
             steps {
                 sh '''
-                    echo "Installing required dependencies for sharp..."
-                    apk add --no-cache python3 make g++ libc6-compat libvips
-
-                    echo "Fixing npm permissions..."
-                    mkdir -p $WORKSPACE/.npm-global
-                    mkdir -p $WORKSPACE/.npm-cache
-                    chmod -R 777 $WORKSPACE/.npm-global $WORKSPACE/.npm-cache
-
-                    echo "Setting npm environment variables..."
-                    export NPM_CONFIG_PREFIX=$WORKSPACE/.npm-global
-                    export NPM_CONFIG_CACHE=$WORKSPACE/.npm-cache
-                    export PATH=$WORKSPACE/.npm-global/bin:$PATH
-
-                    echo "Installing Netlify CLI locally with --unsafe-perm..."
-                    npm install netlify-cli --unsafe-perm
+                    echo "Installing Netlify CLI locally"
+                    npm install netlify-cli
 
                     echo "Checking Netlify CLI version..."
                     $WORKSPACE/.npm-global/bin/netlify --version
