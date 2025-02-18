@@ -87,7 +87,7 @@ pipeline {
                 docker {
                     image 'node:18-alpine'
                     reuseNode true
-                    // If needed to avoid further permission issues, you can add: args '--user root'
+                    args '--user root'
                 }
             }
             steps {
