@@ -13,6 +13,7 @@ pipeline {
                 // Fix any permission issues in the workspace before checkout.
                 // Adjust the command if your Jenkins user is not allowed to run sudo without a password.
                 sh '''
+                    echo "hello from github"
                     echo "Cleaning workspace permissions..."
                     sudo chown -R jenkins:jenkins "$WORKSPACE" || echo "Pre-cleanup skipped (or insufficient permissions)."
                 '''
@@ -97,6 +98,7 @@ pipeline {
 
                     echo "Checking Netlify CLI version..."
                     $WORKSPACE/node_modules/.bin/netlify --version
+                    echo "by from guihub"
                 '''
             }
         }
