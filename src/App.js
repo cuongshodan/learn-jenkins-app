@@ -18,6 +18,9 @@ function App() {
       <p>
           Application version: 1
       </p>
+      <p>
+        cucu netlify deploy OK!
+      </p>
     </div>
   );
 }

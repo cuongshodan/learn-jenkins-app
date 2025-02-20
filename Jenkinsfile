@@ -104,6 +104,7 @@ pipeline {
                     echo "Checking Netlify CLI version..."
                     $WORKSPACE/node_modules/.bin/netlify --version
                     $WORKSPACE/node_modules/.bin/netlify status
+                    $WORKSPACE/node_modules/.bin/netlify deploy --dir=build --prod
                     echo "from github"
                     echo "Deploying to Netlify. Site ID: $NETLIFY_SITE_ID"
                 '''
