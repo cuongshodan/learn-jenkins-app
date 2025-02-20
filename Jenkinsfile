@@ -2,7 +2,8 @@ pipeline {
     agent any
 
     environment {
-        NETFLIFY_SITE_ID = 'deefd59d-33f9-4064-a1ca-ef783e9aa577'
+        NETLIFY_SITE_ID = 'deefd59d-33f9-4064-a1ca-ef783e9aa577'
+        NETLIFY_AUTH_TOKEN = credentials('netlify-token')
     }
 
     // Enable ANSI colors and skip the default checkout so we can fix workspace permissions first.
@@ -102,8 +103,9 @@ pipeline {
 
                     echo "Checking Netlify CLI version..."
                     $WORKSPACE/node_modules/.bin/netlify --version
+                    $WORKSPACE/node_modules/.bin/netlify status
                     echo "from github"
-                    echo "Deploying to Netlify. Sdite ID: $NETFLIFY_SITE_ID"
+                    echo "Deploying to Netlify. Site ID: $NETLIFY_SITE_ID"
                 '''
             }
         }
